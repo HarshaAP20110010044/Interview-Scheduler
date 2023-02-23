@@ -1,79 +1,42 @@
-body,
-html {
-    height: 100%;
-    overflow: auto;
-    font-size: 14px;
-}
-
-.logo-div {
+.filter-div {
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 20% 20% auto;
     align-items: center;
 }
 
-.main-img {
+#from, #to {
+    width: 10rem;
+}
+
+.empty-img {
     width: 25rem;
     height: 20rem;
 }
 
-.more-img {
-    width: 2rem;
-    height: 2rem;
-    display: inline-block;
-}
-
-.more-img:hover {
-    cursor: pointer;
-}
-
-.create-btn {
-    width: 10rem;
-    height: 3rem;
-    border-radius: 1rem;
-}
-
-.r {
+.times-div {
     display: grid;
-    grid-template-columns: 15% 85%;
-    height: 100%;
+    grid-template-columns: 1fr 1fr;
 }
 
-.c-1 {
-    color: white;
-    padding: 1rem;
-    background-color: #434242;
-    height: 100%;
+.times-div input {
+    width: 75%;
 }
 
-.c-2 {
-    height: 100%;
+#date {
+    width: 12.5rem;
 }
 
-.c-item {
-    padding: 1rem 0.5rem;
+#url {
+    width: 28.85rem;
 }
 
-.c-item p {
-    margin: 0px;
-    display: inline-block;
+.participants-div {
+    height: 22rem;
+    overflow-y: scroll;
 }
 
-.c-item img {
-    width: 2rem;
-    height: 2rem;
-    margin-right: 1rem;
+.p-list-item {
+    display: grid;
+    grid-template-columns: 1fr 7fr auto;
+    align-items: center;
 }
-
-.c-item:hover {
-    cursor: pointer;
-    background-color: #333232;
-}
-
-#participant-list {
-    width: 50%;
-    height: 50%;
-}
-
-
-
-

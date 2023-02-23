@@ -1,17 +1,17 @@
-import CreateButton from "./components/CreateButton";
 import { useState, useEffect } from "react";
+import ScheduleModal from "./components/ScheduleModal";
 
 function App() {
     const [isLoaded, setIsLoaded] = useState(false);
-    const [participants, setParticipants] = useState([]);
+    const [interviews, setInterviews] = useState([]);
 
     useEffect(() => {
-        fetch("http://localhost:5000/api/participant/")
+        fetch("http://localhost:5000/api/interview/")
             .then((res) => res.json())
             .then(
                 (data) => {
                     setIsLoaded(true);
-                    setParticipants(data);
+                    setInterviews(data);
                     console.log(data);
                 },
                 (error) => {
@@ -24,22 +24,21 @@ function App() {
         return "loading";
     }
 
-    const emptyHtml = (
-        <div id="main-section" className="text-center">
+    const emptyList = (
+        <div className="text-center">
             <img
                 src="/images/meeting.png"
                 alt="meeting"
-                className="main-img m-3"
+                className="empty-img"
             />
-            <p className="fs-3 ">No interviews scheduled!</p>
-            <CreateButton />
+            <p className="fs-5 m-4 text-secondary">No interviews scheduled!</p>
         </div>
     );
 
-    const participantList = (
+    const interviewList = (
         <div id="interview-list h-50 w-100 border">
             <ul className="list-group">
-                {participants.map((participant) => {
+                {interviews.map((interview, index) => {
                     return (
                         <li className="list-group-item">
                             <input
@@ -52,7 +51,7 @@ function App() {
                                 className="form-check-label"
                                 htmlFor="firstCheckbox"
                             >
-                                {participant.name}
+                                {interview.url}
                             </label>
                         </li>
                     );
@@ -62,41 +61,34 @@ function App() {
     );
 
     return (
-        <div className="container-fluid h-100 p-0 m-0">
-            <div className="r">
-                <div className="c-1">
-                    <div className="py-3 px-2 mb-5 logo-div">
-                        <p className="fw-bold fs-2 m-0 logo">Scheduler</p>
-                        <img
-                            src="/images/more.png"
-                            className="more-img"
-                            alt="more"
-                        />
-                    </div>
-                    <div className="c-item border-bottom-0">
-                        <img src="/images/tab.png" alt="create" />
-                        <p>Schedule an Interview</p>
-                    </div>
-                    <div className="c-item border-bottom-0">
-                        <img src="/images/schedule.png" alt="scheduled" />
-                        <p>Scheduled Interviews</p>
-                    </div>
-                    <div className="c-item">
-                        <img src="/images/group-chat.png" alt="participants" />
-                        <p>View Participants</p>
-                    </div>
+        <div className="container">
+            <p className="m-5 mb-0 fs-2 fw-bold">Scheduled Interviews</p>
+            <div className="filter-div">
+                <div className="m-5 my-4">
+                    <label htmlFor="from" className="form-label">
+                        From:
+                    </label>
+                    <input type="date" className="form-control" id="from" />
                 </div>
-                <div className="c-2 h-100">
-                    <div className="m-5">
-                        <label for="date">Date:</label>
-                        <input type="date" id="date" className="ms-2" />
-                        <label for="time" className="ms-5">
-                            Time:
-                        </label>
-                        <input type="time" id="time" className="ms-2" />
-                    </div>
+                <div className="m-5 my-4">
+                    <label htmlFor="to" className="form-label">
+                        To:
+                    </label>
+                    <input type="date" className="form-control" id="to" />
+                </div>
+                <ScheduleModal />
+                <div className="m-5 my-4 text-end">
+                    <button
+                        type="button"
+                        className="btn btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#scheduleModal"
+                    >
+                        Schedule A New Interview
+                    </button>
                 </div>
             </div>
+            {interviews.length ? interviewList : emptyList}
         </div>
     );
 }

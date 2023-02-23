@@ -10,6 +10,7 @@ const interviewSchema = new mongoose.Schema({
     participants: [participantSchema],
     startTime: Date,
     endTime: Date,
+    url: String
 });
 
 const Participant = mongoose.model("Participant", participantSchema);
