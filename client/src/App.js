@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Loading from "./components/Loading";
 import ScheduleModal from "./components/ScheduleModal";
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
     }, []);
 
     if (!isLoaded) {
-        return "loading";
+        return <Loading />;
     }
 
     const emptyList = (
@@ -36,27 +37,39 @@ function App() {
     );
 
     const interviewList = (
-        <div id="interview-list h-50 w-100 border">
-            <ul className="list-group">
-                {interviews.map((interview, index) => {
+        <div id="interview-list" className="m-5 my-3">
+            <div className="row row-cols-3">
+                {interviews.map((interview, i) => {
                     return (
-                        <li className="list-group-item">
-                            <input
-                                className="form-check-input me-1"
-                                type="checkbox"
-                                defaultValue=""
-                                id="firstCheckbox"
-                            />
-                            <label
-                                className="form-check-label"
-                                htmlFor="firstCheckbox"
-                            >
-                                {interview.url}
-                            </label>
-                        </li>
+                        <div className="col mb-2">
+                            <div className="card" key={i}>
+                                <div className="card-body">
+                                    <h5 className="card-title">
+                                        Interview #{i + 1}
+                                    </h5>
+                                    <p className="card-text">
+                                        Start Time:{" "}
+                                        {interview.startTime.toString()}
+                                        <br />
+                                        End Time: {interview.endTime.toString()}
+                                        <br />
+                                        No. of participants:{" "}
+                                        {interview.participants.length}
+                                    </p>
+                                    <div className="text-center">
+                                        <button className="btn btn-danger m-1">
+                                            Cancel
+                                        </button>
+                                        <button className="btn btn-warning m-1">
+                                            Edit
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     );
                 })}
-            </ul>
+            </div>
         </div>
     );
 

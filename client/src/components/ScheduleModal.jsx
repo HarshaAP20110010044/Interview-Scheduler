@@ -9,8 +9,7 @@ export default function ScheduleModal() {
     const [endTime, setEndTime] = useState(null);
     const [duration, setDuration] = useState(0);
     const [pCount, setPCount] = useState(0);
-
-    const selectedParticipants = Array(participants.length).fill(false);
+    const [url, setURL] = useState("www.interview.com/any-random-url");
 
     useEffect(() => {
         fetch("http://localhost:5000/api/participant/")
@@ -32,7 +31,7 @@ export default function ScheduleModal() {
     }
 
     function diff_minutes(dt2, dt1) {
-        var diff = (dt2.getTime() - dt1.getTime());
+        var diff = dt2.getTime() - dt1.getTime();
         return Math.round(diff / 60000);
     }
 
@@ -86,13 +85,44 @@ export default function ScheduleModal() {
         }
     }
 
+    function handleUrlChange(e) {
+        setURL(e.target.value);
+    }
+
     function handleChange(e) {
-        selectedParticipants[e.target.id] = e.target.value;
         if (e.target.checked) {
             setPCount(pCount + 1);
         } else {
             setPCount(pCount - 1);
         }
+    }
+
+    function handleClick(e) {
+        let finalParticipants = [];
+        var items = document.getElementsByClassName("form-check-input");
+        console.log(items);
+        for (var i = 0; i < items.length; i++) {
+            if (items[i].checked) {
+                finalParticipants.push(participants[Number(items[i].id)]);
+            }
+        }
+        const data = {
+            participants: finalParticipants,
+            startTime: startTime,
+            endTime: endTime,
+            url: url,
+        };
+        fetch("http://localhost:5000/api/interview/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+            });
     }
 
     const participantsList = (
@@ -203,7 +233,8 @@ export default function ScheduleModal() {
                                             className="form-control"
                                             id="url"
                                             placeholder="www.interview.com"
-                                            value="www.interview.com/any-random-url"
+                                            value={url}
+                                            onChange={handleUrlChange}
                                         />
                                     </div>
                                     <p className="m-0 mt-4 fs-6 text-secondary">
@@ -228,7 +259,11 @@ export default function ScheduleModal() {
                         >
                             Cancel
                         </button>
-                        <button type="button" className="btn btn-primary">
+                        <button
+                            type="button"
+                            className="btn btn-primary"
+                            onClick={handleClick}
+                        >
                             Schedule
                         </button>
                     </div>
