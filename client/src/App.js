@@ -75,7 +75,7 @@ function App() {
 
     return (
         <div className="container">
-            <p className="m-5 mb-0 fs-2 fw-bold">Scheduled Interviews</p>
+            <p className="m-5 mt-4 mb-0 fs-2 fw-bold">Scheduled Interviews</p>
             <div className="filter-div">
                 <div className="m-5 my-4">
                     <label htmlFor="from" className="form-label">
@@ -89,7 +89,7 @@ function App() {
                     </label>
                     <input type="date" className="form-control" id="to" />
                 </div>
-                <ScheduleModal />
+                <ScheduleModal setInterviews={setInterviews} />
                 <div className="m-5 my-4 text-end">
                     <button
                         type="button"

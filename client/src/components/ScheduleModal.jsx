@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import Loading from "./Loading";
+import moment from "moment";
 
-export default function ScheduleModal() {
+export default function ScheduleModal({ setInterviews }) {
     const [isLoaded, setIsLoaded] = useState(false);
     const [participants, setParticipants] = useState([]);
     const [date, setDate] = useState(null);
@@ -18,7 +19,6 @@ export default function ScheduleModal() {
                 (data) => {
                     setIsLoaded(true);
                     setParticipants(data);
-                    console.log(data);
                 },
                 (error) => {
                     console.log(error);
@@ -37,7 +37,12 @@ export default function ScheduleModal() {
 
     function handleDateChange(e) {
         const date = new Date(e.target.value);
-        const today = new Date();
+        var today = new Date();
+        today = new Date(
+            today.getFullYear(),
+            today.getMonth(),
+            today.getDate()
+        );
         if (date < today) {
             alert("Date must be on or after " + today.toString());
             e.target.value = null;
@@ -100,7 +105,6 @@ export default function ScheduleModal() {
     function handleClick(e) {
         let finalParticipants = [];
         var items = document.getElementsByClassName("form-check-input");
-        console.log(items);
         for (var i = 0; i < items.length; i++) {
             if (items[i].checked) {
                 finalParticipants.push(participants[Number(items[i].id)]);
@@ -112,6 +116,7 @@ export default function ScheduleModal() {
             endTime: endTime,
             url: url,
         };
+        console.log(data);
         fetch("http://localhost:5000/api/interview/", {
             method: "POST",
             headers: {
@@ -122,6 +127,7 @@ export default function ScheduleModal() {
             .then((res) => res.json())
             .then((data) => {
                 console.log(data);
+                setInterviews((interviews) => [...interviews, data]);
             });
     }
 
