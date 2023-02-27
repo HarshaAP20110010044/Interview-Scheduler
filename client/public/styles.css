@@ -19,7 +19,7 @@
 }
 
 .times-div input {
-    width: 75%;
+    width: 100%;
 }
 
 #date {
@@ -31,7 +31,7 @@
 }
 
 .participants-div {
-    height: 22rem;
+    height: 23rem;
     overflow-y: scroll;
 }
 

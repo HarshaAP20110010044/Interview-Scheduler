@@ -13,10 +13,11 @@ interviewRouter.get("/", (req, res) => {
 });
 
 interviewRouter.post("/", (req, res) => {
-    const { participants, startTime, endTime } = req.body;
+    const { participants, date, startTime, endTime } = req.body;
 
     const interview = new Interview({
         participants: participants,
+        date: date,
         startTime: startTime,
         endTime: endTime,
     });

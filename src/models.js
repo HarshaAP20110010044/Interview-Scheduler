@@ -8,8 +8,15 @@ const participantSchema = new mongoose.Schema({
 
 const interviewSchema = new mongoose.Schema({
     participants: [participantSchema],
-    startTime: Date,
-    endTime: Date,
+    date: String,
+    startTime: {
+        hours: Number,
+        minutes: Number,
+    },
+    endTime: {
+        hours: Number,
+        minutes: Number,
+    },
     url: String
 });
 
