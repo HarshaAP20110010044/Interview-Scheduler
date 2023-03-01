@@ -15,6 +15,7 @@ export default function Modal(props) {
     );
     const [pCount, setPCount] = useState(props.selectedParticipants.length);
     const [url, setURL] = useState("www.interview.com/any-random-url");
+    const [interviews, setInterviews] = useState(props.interviews);
 
     useEffect(() => {
         fetch("http://localhost:5000/api/participant/")
@@ -52,6 +53,13 @@ export default function Modal(props) {
 
     function handleDateChange(e) {
         setDate(e.target.value);
+        for (let i = 0; i < interviews.length; i++) {
+            if (interviews[i]._id === props.id) {
+                interviews[i].date = e.target.value;
+                setInterviews([...interviews]);
+                break;
+            }
+        }
     }
 
     function handleStartTimeHrsChange(e) {
@@ -221,6 +229,7 @@ export default function Modal(props) {
             endTime: endTime,
             url: url,
         };
+        console.log(data);
         fetch("http://localhost:5000/api/interview/" + props.id, {
             method: "PUT",
             headers: {
@@ -231,22 +240,14 @@ export default function Modal(props) {
             .then((res) => res.json())
             .then((data) => {
                 console.log(data);
-                let res = [];
-                for (let i = 0; i < props.interviews.length; i++) {
-                    if (props.interviews[i]._id === props.id) {
-                        res.push(data);
-                    } else {
-                        res.push(props.interviews[i]);
-                    }
-                }
-                props.setInterviews(res);
+                props.setInterviews(interviews);
             });
     }
 
     function handleResumeClick(e) {
         let id = e.target.id.slice(1);
         document.getElementById("f" + id).click();
-        document.getElementById("b" + id).innerHTML = 'Resume Uploaded';
+        document.getElementById("b" + id).innerHTML = "Resume Uploaded";
     }
 
     const participantsList = (
